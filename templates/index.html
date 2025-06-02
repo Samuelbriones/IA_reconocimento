@@ -1,75 +1,94 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
-    <title>Recomendador de Lentes</title>
+    <title>Óptica GlassTech - Recomendador de Lentes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans">
 
-<div class="max-w-xl mx-auto mt-10 bg-white p-6 rounded-xl shadow-md">
-    <h1 class="text-2xl font-bold text-center mb-6">👓 Recomendador de Lentes según tu Rostro</h1>
+<body class="bg-gradient-to-br from-blue-200 via-white to-blue-100 min-h-screen flex items-center justify-center px-4">
 
-    <form method="POST" enctype="multipart/form-data" id="formulario">
-        <div class="mb-4">
-            <label class="block mb-2 font-semibold">Sube una imagen:</label>
-            <input
-                type="file"
-                name="image"
-                id="fileInput"
-                accept="image/*"
-                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-            />
-        </div>
+    <div class="w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-blue-300">
+        <!-- Encabezado -->
+        <header class="bg-gradient-to-r from-blue-900 to-blue-600 text-white p-10 text-center">
+            <h1 class="text-5xl font-bold tracking-wide mb-2">👓 Óptica GlassTech</h1>
+            <p class="text-lg font-light">Descubre qué tipo de lentes van mejor con tu rostro</p>
+        </header>
 
-        <div class="mb-4 text-center">
-            <p class="mb-2 font-semibold">O usa tu cámara:</p>
-            <video id="video" width="300" autoplay class="rounded-lg border mx-auto"></video>
-            <br />
-            <button
-                type="button"
-                id="toggleCamBtn"
-                class="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded"
-            >
-                🔴 Encender cámara
-            </button>
-            <button
-                type="button"
-                onclick="capturarFoto()"
-                class="mt-2 ml-2 bg-green-500 hover:bg-green-600 text-white py-1 px-4 rounded"
-            >
-                📸 Capturar
-            </button>
-            <canvas id="canvas" width="300" height="225" style="display:none;"></canvas>
-            <input type="hidden" name="captured_image" id="captured_image" />
-        </div>
+        <!-- Cuerpo -->
+        <main class="p-10 space-y-12 bg-white">
+            <!-- Formulario -->
+            <form method="POST" enctype="multipart/form-data" id="formulario"
+                class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Subir imagen -->
+                <div>
+                    <h2 class="text-xl font-semibold text-blue-800 mb-4">📤 Sube una imagen</h2>
+                    <input type="file" name="image" id="fileInput" accept="image/*"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 file:bg-blue-100 file:text-blue-700" />
+                </div>
 
-        <div class="text-center">
-            <button
-                type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded"
-            >
-                Analizar rostro
-            </button>
-        </div>
-    </form>
+                <!-- Cámara -->
+                <div class="text-center">
+                    <h2 class="text-xl font-semibold text-blue-800 mb-4">📷 Usa tu cámara</h2>
+                    <video id="video" width="320" autoplay
+                        class="mx-auto rounded-lg border border-gray-300 shadow-md"></video>
+                    <div class="mt-4 flex justify-center gap-4">
+                        <button type="button" id="toggleCamBtn"
+                            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+                            🔴 Encender
+                        </button>
+                        <button type="button" onclick="capturarFoto()"
+                            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition">
+                            📸 Capturar
+                        </button>
+                    </div>
+                    <canvas id="canvas" width="320" height="240" class="hidden mt-4 mx-auto rounded-md"></canvas>
+                    <input type="hidden" name="captured_image" id="captured_image" />
+                </div>
 
-    {% if image_url %}
-    <div class="mt-6">
-        <h2 class="text-xl font-bold mb-2">Resultado:</h2>
-        <p class="mb-2"><strong>Tipo de rostro detectado:</strong> {{ face_type }}</p>
-        <p class="mb-2"><strong>Recomendación:</strong> {{ recommendation }}</p>
-        <img
-            src="{{ image_url }}"
-            alt="Rostro"
-            class="mt-4 rounded shadow-lg mx-auto"
-            width="300"
-        />
+                <!-- Botón de análisis -->
+                <div class="col-span-1 md:col-span-2 text-center mt-8">
+                    <button type="submit"
+                        class="bg-blue-700 hover:bg-blue-800 text-white text-xl font-bold py-3 px-10 rounded-full shadow-lg transition duration-300">
+                        🔍 Analizar rostro
+                    </button>
+                </div>
+            </form>
+
+            <!-- Resultado -->
+            {% if face_type %}
+            <section class="border-t pt-10">
+                <h2 class="text-3xl font-bold text-center text-blue-800 mb-8">📊 Resultado del Análisis</h2>
+                <div class="flex flex-col md:flex-row items-center md:justify-center gap-10">
+                    <img src="{{ image_url }}" alt="Imagen analizada"
+                        class="w-64 rounded-xl shadow-lg border border-gray-300" />
+                    <div class="text-center md:text-left space-y-4">
+                        <p class="text-2xl font-semibold text-gray-800">🔵 Tipo de rostro: <span
+                                class="text-blue-600">{{ face_type }}</span></p>
+                        <p class="text-xl text-gray-700">🕶️ <strong>Recomendación:</strong> {{ recommendation }}</p>
+                        <a href="#" class="inline-block mt-4 text-blue-600 hover:text-blue-800 font-medium">Ver modelos
+                            sugeridos →</a>
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+        </main>
+
+        <!-- Pie -->
+        <footer class="bg-blue-50 text-center py-5 text-sm text-blue-700 font-medium">
+            &copy; 2025 Óptica Visión Clara. Todos los derechos reservados.
+        </footer>
     </div>
-    {% endif %}
-</div>
 
-<script src="{{ url_for('static', filename='js/cap.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='js/cap.js') }}"></script>
 </body>
 </html>
