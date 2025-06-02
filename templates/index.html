@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Recomendador de Lentes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+<div class="max-w-xl mx-auto mt-10 bg-white p-6 rounded-xl shadow-md">
+    <h1 class="text-2xl font-bold text-center mb-6">👓 Recomendador de Lentes según tu Rostro</h1>
+
+    <form method="POST" enctype="multipart/form-data" id="formulario">
+        <div class="mb-4">
+            <label class="block mb-2 font-semibold">Sube una imagen:</label>
+            <input
+                type="file"
+                name="image"
+                id="fileInput"
+                accept="image/*"
+                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            />
+        </div>
+
+        <div class="mb-4 text-center">
+            <p class="mb-2 font-semibold">O usa tu cámara:</p>
+            <video id="video" width="300" autoplay class="rounded-lg border mx-auto"></video>
+            <br />
+            <button
+                type="button"
+                id="toggleCamBtn"
+                class="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded"
+            >
+                🔴 Encender cámara
+            </button>
+            <button
+                type="button"
+                onclick="capturarFoto()"
+                class="mt-2 ml-2 bg-green-500 hover:bg-green-600 text-white py-1 px-4 rounded"
+            >
+                📸 Capturar
+            </button>
+            <canvas id="canvas" width="300" height="225" style="display:none;"></canvas>
+            <input type="hidden" name="captured_image" id="captured_image" />
+        </div>
+
+        <div class="text-center">
+            <button
+                type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded"
+            >
+                Analizar rostro
+            </button>
+        </div>
+    </form>
+
+    {% if image_url %}
+    <div class="mt-6">
+        <h2 class="text-xl font-bold mb-2">Resultado:</h2>
+        <p class="mb-2"><strong>Tipo de rostro detectado:</strong> {{ face_type }}</p>
+        <p class="mb-2"><strong>Recomendación:</strong> {{ recommendation }}</p>
+        <img
+            src="{{ image_url }}"
+            alt="Rostro"
+            class="mt-4 rounded shadow-lg mx-auto"
+            width="300"
+        />
+    </div>
+    {% endif %}
+</div>
+
+<script src="{{ url_for('static', filename='js/cap.js') }}"></script>
+
+</body>
+</html>
