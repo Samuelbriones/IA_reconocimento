@@ -23,7 +23,7 @@ FACE_TYPES = [
 def save_base64_image(data_url, upload_folder):
     """Convierte imagen base64 en archivo y lo guarda."""
     header, encoded = data_url.split(',', 1)
-    file_ext = header.split('/')[1].split(';')[0]  # por ejemplo 'png'
+    file_ext = header.split('/')[1].split(';')[0]
     filename = f"captured_{datetime.now().strftime('%Y%m%d%H%M%S')}.{file_ext}"
     filepath = os.path.join(upload_folder, filename)
     with open(filepath, "wb") as f:
@@ -44,6 +44,7 @@ def index():
             path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             image.save(path)
             image_url = path
+            
 
         # 2. Imagen capturada desde la cámara (base64)
         elif "captured_image" in request.form and request.form["captured_image"] != "":
