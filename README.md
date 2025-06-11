@@ -25,14 +25,14 @@ Esta es una aplicación web desarrollada con Flask que permite al usuario **subi
    git clone https://github.com/Samuelbriones/IA_reconocimento.git
 
 2. **Instala las dependencias**:
-    
+    ```bash
     pip install flask
 
-2. **Ejecuta la aplicación**:
+3. **Ejecuta la aplicación**:
+    ```bash
     python app.py
 
-2. **Abre tu navegador y accede a:**:
+4. **Abre tu navegador y accede a:**:
+    ```bash
     http://127.0.0.1:5000/
     
-2. **Abre tu navegador y accede a:**:
-    http://127.0.0.1:5000/
