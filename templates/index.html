@@ -92,11 +92,15 @@
             <section>
                 <h2 class="text-xl font-bold text-center text-blue-800 mb-4 drop-shadow">📊 Resultado del Análisis</h2>
                 <div class="flex flex-col items-center gap-4">
-                    <img src="{{ image_url }}" alt="Imagen analizada"
+                    <img src="data:image/jpeg;base64,{{ image_data }}" alt="Imagen del rostro"
+                         id="resultImage"
                         class="w-40 h-40 object-cover rounded-2xl shadow-xl border-2 border-blue-200 bg-white" />
                     <div class="text-center space-y-2">
                         <p class="text-lg font-semibold text-gray-800">🔵 Tipo de rostro: <span
                                 class="text-blue-600 font-bold">{{ face_type }}</span></p>
+                        <p class="text-sm text-gray-600">
+                            📈 Coincidencia del modelo: <span class="text-green-600 font-semibold">{{ pred }}%</span>
+                        </p>
                         <p class="text-base text-gray-700">🕶️ <strong>Recomendación:</strong> {{ recommendation }}</p>
                         <a href="#" class="inline-block mt-2 text-blue-700 hover:text-blue-900 font-semibold underline underline-offset-4 transition">Ver modelos sugeridos →</a>
                     </div>

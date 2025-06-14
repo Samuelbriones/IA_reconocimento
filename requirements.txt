@@ -1,2 +1,6 @@
 flask
 werkzeug
+tensorflow
+numpy
+opencv-python
+keras
