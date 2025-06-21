@@ -66,3 +66,4 @@ resetCamBtn.addEventListener('click', () => {
         encenderCamara();
     }
 });
+
