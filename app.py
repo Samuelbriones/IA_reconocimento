@@ -1,36 +1,20 @@
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 import os
+import cv2
 import base64
-import random
-from datetime import datetime
+import numpy as np
+from model.predict_face import predict_face_shape
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
-# Crear carpeta de uploads si no existe
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# Datos quemados para simular predicciones
 FACE_TYPES = [
     {"type": "Ovalado", "recommendation": "Lentes cuadrados para equilibrar las proporciones."},
     {"type": "Redondo", "recommendation": "Lentes angulares para afilar los rasgos."},
     {"type": "Cuadrado", "recommendation": "Lentes redondeados o tipo aviador para suavizar."},
-<<<<<<< Updated upstream
-    {"type": "Alargado", "recommendation": "Lentes altas para acortar visualmente el rostro."},
-    {"type": "Corazón", "recommendation": "Lentes sin montura o redondos para balancear la frente amplia."},
-]
-
-def save_base64_image(data_url, upload_folder):
-    """Convierte imagen base64 en archivo y lo guarda."""
-    header, encoded = data_url.split(',', 1)
-    file_ext = header.split('/')[1].split(';')[0]  # por ejemplo 'png'
-    filename = f"captured_{datetime.now().strftime('%Y%m%d%H%M%S')}.{file_ext}"
-    filepath = os.path.join(upload_folder, filename)
-    with open(filepath, "wb") as f:
-        f.write(base64.b64decode(encoded))
-    return filepath
-=======
     {"type": "Oblongo", "recommendation": "Lentes altos para acortar visualmente el rostro."},
     {"type": "Corazón", "recommendation": "Lentes sin montura o redondos para balancear la frente amplia."},
 ]
@@ -77,48 +61,33 @@ LENTES_IMAGES = {
         {"urls":"/static/lentes/Corazon/6.jpg","nombre": "Lentes Aviador Invertido"},
     ],
 }
->>>>>>> Stashed changes
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    image_url = None
-    face_type = None
+    image_data = None
+    shape=None
     recommendation = None
-<<<<<<< Updated upstream
-=======
     pred = None
     lentes_imgs = []
->>>>>>> Stashed changes
 
     if request.method == "POST":
-        # 1. Imagen subida
+        img_np = None
+
         if "image" in request.files and request.files["image"].filename != "":
             image = request.files["image"]
-            filename = secure_filename(image.filename)
-            path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            image.save(path)
-            image_url = path
+            file_bytes = np.frombuffer(image.read(), np.uint8)
+            img_np = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
 
-        # 2. Imagen capturada desde la cámara (base64)
         elif "captured_image" in request.form and request.form["captured_image"] != "":
             data_url = request.form["captured_image"]
-            path = save_base64_image(data_url, app.config["UPLOAD_FOLDER"])
-            image_url = path
+            _, encoded = data_url.split(",", 1)
+            img_bytes = base64.b64decode(encoded)
+            file_bytes = np.frombuffer(img_bytes, np.uint8)
+            img_np = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
 
-<<<<<<< Updated upstream
-        # Selecciona datos quemados aleatorios
-        result = random.choice(FACE_TYPES)
-        face_type = result["type"]
-        recommendation = result["recommendation"]
-
-    return render_template("index.html",
-                           image_url=image_url,
-                           face_type=face_type,
-                           recommendation=recommendation)
-=======
         if img_np is not None:
             img, shape, pred  = predict_face_shape(img_np)
-            
+          
             if shape is None:
                 shape = "No se detectó un rostro válido"
                 recommendation = "Por favor, sube una imagen clara con solo una persona."
@@ -132,7 +101,7 @@ def index():
                     recommendation = item["recommendation"]
                     lentes_imgs = LENTES_IMAGES.get(shape, [])
                     break
-
+                
             for item in FACE_TYPES:
                 if item["type"]== shape:
                     recommendation = item["recommendation"]
@@ -143,9 +112,8 @@ def index():
                            face_type=shape,
                            recommendation=recommendation,
                            pred=round(pred, 2) if pred else 0,
-                           lentes_imgs=lentes_imgs,
+                           lentes_imgs=lentes_imgs
                            )
->>>>>>> Stashed changes
 
 if __name__ == "__main__":
     app.run(debug=True)

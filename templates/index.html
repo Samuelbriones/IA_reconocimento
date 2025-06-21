@@ -10,13 +10,6 @@
         body { font-family: 'Raleway', sans-serif; }
     </style>
 </head>
-<!-- Overlay -->
-<div id="overlay-loader" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-    <div class="flex flex-col items-center">
-        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-600 border-opacity-70 mb-4"></div>
-        <span class="text-xl text-white font-semibold drop-shadow">Analizando rostro...</span>
-    </div>
-</div>
 <body class="bg-gradient-to-br from-blue-100 via-white to-blue-300 min-h-screen flex items-center justify-center px-2">
     <div class="w-full max-w-7xl grid grid-cols-1 md:grid-cols-5 gap-6">
         <!-- Sección 1: Encabezado + Subir imagen y cámara -->
@@ -70,7 +63,7 @@
                                     </svg>
                                     <p class="text-gray-500 text-sm font-medium">Cámara desactivada</p>
                                 </div>
-                                
+                              
                                 <!-- Video -->
                                 <video id="video" width="280" height="210"
                                     class="hidden absolute inset-0 w-full h-full object-cover rounded-xl"></video>
@@ -97,34 +90,18 @@
 
                     <!-- Botón de análisis -->
                     <div class="flex justify-center mt-4">
-                        <button type="submit "
+                        <button type="submit id="analizarBtn""
                             class="bg-blue-700 hover:bg-blue-800 text-white text-lg font-bold py-2 px-8 rounded-full shadow-xl transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
                             🔍 Analizar rostro
                         </button>
-                        <div id="loader" class="flex justify-center mt-4 hidden">
-    <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-600 border-opacity-50"></div>
-    <span class="ml-3 text-blue-700 font-semibold">Analizando rostro...</span>
-</div>
                     </div>
                 </form>
             </div>
         </div>
-        
+      
         <!-- Sección 2: Resultado -->
         <div class="md:col-span-3 bg-white/90 rounded-2xl shadow-xl border border-blue-200 p-4 flex flex-col max-h-[90vh] min-h-[350px]">
             {% if face_type %}
-<<<<<<< Updated upstream
-            <section>
-                <h2 class="text-xl font-bold text-center text-blue-800 mb-4 drop-shadow">📊 Resultado del Análisis</h2>
-                <div class="flex flex-col items-center gap-4">
-                    <img src="{{ image_url }}" alt="Imagen analizada"
-                        class="w-40 h-40 object-cover rounded-2xl shadow-xl border-2 border-blue-200 bg-white" />
-                    <div class="text-center space-y-2">
-                        <p class="text-lg font-semibold text-gray-800">🔵 Tipo de rostro: <span
-                                class="text-blue-600 font-bold">{{ face_type }}</span></p>
-                        <p class="text-base text-gray-700">🕶️ <strong>Recomendación:</strong> {{ recommendation }}</p>
-                        <a href="#" class="inline-block mt-2 text-blue-700 hover:text-blue-900 font-semibold underline underline-offset-4 transition">Ver modelos sugeridos →</a>
-=======
             <section class="max-w-4xl mx-auto w-full pt-3 md:pt-19">
                 <h2 class="text-xl font-bold text-center text-blue-800 mb-6 drop-shadow">📊 Resultado del Análisis</h2>
                 <a  class="inline-block text-blue-700 hover:text-blue-900 font-semibold underline-offset-4 transition translate-x-20">Rostro Recortados:</a>
@@ -136,22 +113,21 @@
                              id="resultImage"
                             class="w-60 h-60 object-cover rounded-2xl shadow-xl border-2 border-blue-200 bg-white" />
                     </div>
-
                     <!-- Contenedor de tarjetas -->
                     <div class="flex-shrink-0 space-y-4 w-full md:w-auto md:max-w-xs">
-                        <div class="bg-blue-50 rounded-xl p-3 text-center border border-blue-200 shadow-sm">
-                            <p class="text-blue-600 font-medium">🔵 Tipo de rostro</p>
-                            <p class="text-blue-700 text-2xl font-bold">{{ face_type }}</p>
+                        <!-- Tipo de rostro - Tarjeta azul -->
+                        <div class="bg-blue-50 rounded-xl p-3 text-center border border-blue-200 shadow-sm transition-transform transition-shadow duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
+                            <p class="text-blue-600 font-medium transition-colors duration-300 hover:text-blue-800">🔵 Tipo de rostro</p>
+                            <p class="text-blue-700 text-2xl font-bold transition-colors duration-300 hover:text-blue-900">{{ face_type }}</p>
                         </div>
-                        <div class="bg-green-50 rounded-xl p-3 text-center border border-green-200 shadow-sm">
-                            <p class="text-green-600 font-medium">📈 Coincidencia del modelo</p>
-                            <p class="text-green-700 text-2xl font-bold">{{ pred }}%</p>
-                        </div>
-                        <div class="bg-purple-50 rounded-xl p-3 text-center border border-purple-200 shadow-sm">
-                            <p class="text-purple-600 font-medium">🕶️ Recomendación:</p>
-                            <p class="text-gray-700 text-base">{{ recommendation }}</p>
-                        </div>
->>>>>>> Stashed changes
+                    <div class="bg-green-50 rounded-xl p-3 text-center border border-green-200 shadow-sm transition-transform transition-shadow duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
+                        <p class="text-green-600 font-medium transition-colors duration-300 hover:text-green-800">📈 Coincidencia del modelo</p>
+                        <p class="text-green-700 text-2xl font-bold transition-colors duration-300 hover:text-green-900">{{ pred }}%</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-xl p-3 text-center border border-purple-200 shadow-sm transition-transform transition-shadow duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
+                        <p class="text-purple-600 font-medium transition-colors duration-300 hover:text-purple-800">🕶️ Recomendación:</p>
+                        <p class="text-gray-700 text-base transition-colors duration-300 hover:text-gray-900">{{ recommendation }}</p>
+                    </div>
                     </div>
                 </div>
                 <!-- Sugerencia de lentes -->
@@ -160,14 +136,15 @@
                 </div>
                 {% if lentes_imgs %}
                 <div class="mt-8 flex flex-col items-center">
+                    <!-- Carrusel de grupos de 3 imágenes -->
                     <div id="carousel-groups" class="w-full max-w-3xl flex justify-center items-center">
                         {% for group in lentes_imgs|batch(3, '') %}
-                        <div class="carousel-group flex justify-center w-full {% if loop.index0 != 0 %}hidden{% endif %}">
+                        <div class="carousel-group flex justify-center gap-2 w-full {% if loop.index0 != 0 %}hidden{% endif %}">
                             {% for lente in group %}
                             {% if lente %}
                             <div class="flex flex-col items-center w-full max-w-xs">
                                 <img src="{{ lente.url }}" alt="Lente recomendado"
-                                     class="w-45 h-44 object-contain rounded-xl shadow-lg border-2 border-blue-200 bg-white/80 hover:scale-125 hover:shadow-2xl transition-all duration-500" />
+                                     class="w-40 h-32 object-contain rounded-xl shadow-lg border-2 border-blue-200 bg-white/80 hover:scale-125 hover:shadow-2xl transition-all duration-500" />
                                 <span class="mt-2 text-base text-blue-700 font-semibold">{{ lente.nombre }}</span>
                             </div>
                             {% endif %}
@@ -175,6 +152,7 @@
                         </div>
                         {% endfor %}
                     </div>
+                    <!-- Dots -->
                     <div class="flex justify-center mt-4 space-x-3">
                         {% set num_groups = (lentes_imgs|length // 3) + (1 if lentes_imgs|length % 3 > 0 else 0) %}
                         {% for i in range(num_groups) %}
@@ -186,6 +164,7 @@
             {% else %}
             <!-- Estado de espera -->
             <section class="flex flex-col items-center justify-center text-center h-full">
+                <!-- Icono de lentes -->
                 <div class="mb-6">
                     <svg class="w-20 h-20 text-blue-300 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3">
                         <circle cx="18" cy="32" r="12"/>
@@ -195,6 +174,7 @@
                         <path d="M58 32c0-10-4-14-8-14"/>
                     </svg>
                 </div>
+
                 <h2 class="text-2xl font-bold text-blue-600 mb-4">Esperando análisis</h2>
                 <p class="text-gray-600 text-lg leading-relaxed max-w-md">
                     Sube una imagen o captura una foto para obtener tu recomendación personalizada de lentes
@@ -206,36 +186,45 @@
 
     <script src="{{ url_for('static', filename='js/cap.js') }}"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const groups = Array.from(document.querySelectorAll('.carousel-group'));
-        const dots = Array.from(document.querySelectorAll('.carousel-dot'));
-        let current = 0;
-        function showGroup(idx) {
-            groups.forEach((group, i) => {
-                group.classList.toggle('hidden', i !== idx);
+        document.addEventListener('DOMContentLoaded', function() {
+            const groups = Array.from(document.querySelectorAll('.carousel-group'));
+            const dots = Array.from(document.querySelectorAll('.carousel-dot'));
+            let current = 0;
+        
+            function showGroup(idx) {
+                groups.forEach((group, i) => {
+                    group.classList.toggle('hidden', i !== idx);
+                });
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('bg-blue-600', i === idx);
+                    dot.classList.toggle('border-blue-600', i === idx);
+                    dot.classList.toggle('bg-blue-200', i !== idx);
+                    dot.classList.toggle('border-blue-400', i !== idx);
+                });
+            }
+        
+            dots.forEach((dot, idx) => {
+                dot.addEventListener('click', () => {
+                    current = idx;
+                    showGroup(current);
+                });
             });
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('bg-blue-600', i === idx);
-                dot.classList.toggle('border-blue-600', i === idx);
-                dot.classList.toggle('bg-blue-200', i !== idx);
-                dot.classList.toggle('border-blue-400', i !== idx);
-            });
-        }
-        dots.forEach((dot, idx) => {
-            dot.addEventListener('click', () => {
-                current = idx;
-                showGroup(current);
+        
+            showGroup(current);
+            // Overlay loader
+            document.getElementById('formulario').addEventListener('submit', function(e) {
+                document.getElementById('overlay-loader').classList.remove('hidden');
+                document.getElementById('analizarBtn').disabled = true;
+                document.getElementById('analizarBtn').classList.add('opacity-60', 'cursor-not-allowed');
             });
         });
-        showGroup(current);
-    });
     </script>
-    <script>
-    document.getElementById('formulario').addEventListener('submit', function(e) {
-        document.getElementById('overlay-loader').classList.remove('hidden');
-        document.getElementById('analizarBtn').disabled = true;
-        document.getElementById('analizarBtn').classList.add('opacity-60', 'cursor-not-allowed');
-    });
-    </script>
+<!-- Overlay-->
+    <div id="overlay-loader" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+        <div class="flex flex-col items-center">
+            <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-600 border-opacity-70 mb-4"></div>
+            <span class="text-xl text-white font-semibold drop-shadow">Analizando rostro...</span>
+        </div>
+    </div>
 </body>
 </html>
